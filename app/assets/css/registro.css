@@ -1,0 +1,137 @@
+/* CONTENEDOR PRINCIPAL */
+.registro {
+  padding: 30px;
+}
+
+/* BOTONES Y BUSCADOR */
+.acciones {
+  margin-bottom: 20px;
+}
+
+.acciones button {
+  background: #3B82F6;
+  color: white;
+  padding: 10px;
+  border: none;
+  margin-right: 10px;
+}
+
+/* TABLA */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+th {
+  background: #93C5FD;
+}
+
+/* MODAL (fondo oscuro) */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+/* CONTENIDO DEL MODAL */
+.modal-content {
+  background: white;
+  padding: 20px;
+  width: 400px;
+  margin: 100px auto;
+  border-radius: 10px;
+}
+
+/* INPUTS */
+.modal-content input,
+.modal-content select {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+ box-sizing: border-box; /* Fundamental: el padding se queda DENTRO del 100% */
+}
+
+/* BOTONES DEL MODAL */
+.modal-botones {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* CONTENEDOR DE BOTONES (arriba) */
+.botones {
+    padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* ESTILO GENERAL DE BOTONES */
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+/* BOTÓN guardar */
+.btn-guardar {
+  background-color: #5ecaf5; 
+  color: white;
+}
+/* BOTÓN CANCELER */
+.btn-cancelar{
+  background-color: hsl(239, 66%, 58%); 
+  color: white;
+}
+
+/* BOTÓN REGISTRAR */
+.btn-registrar {
+  background-color: #22c55e; /* verde */
+  color: white;
+}
+
+.btn-registrar:hover {
+  background-color: #16a34a; /* verde más oscuro */
+}
+
+/* BOTÓN BUSCAR */
+.btn-buscar {
+  background-color: #3b82f6; /* azul */
+  color: white;
+}
+
+.btn-buscar:hover {
+  background-color: #2563eb;
+}
+
+/* BOTÓN EDITAR */
+.btn-editar {
+  background-color: #f59e0b; /* amarillo */
+  color: white;
+  margin-right: 8px;
+}
+
+.btn-editar:hover {
+  background-color: #d97706;
+}
+
+/* BOTÓN ELIMINAR */
+.btn-eliminar {
+  background-color: #ef4444; /* rojo */
+  color: white;
+}
+
+.btn-eliminar:hover {
+  background-color: #dc2626;
+}

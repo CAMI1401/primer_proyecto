@@ -1,0 +1,14 @@
+/* CONTENEDOR DE CONTACTO */
+.contacto {
+  background: #EFF6FF; /* azul muy claro */
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 500px;
+}
+
+/* TEXTAREA */
+.contacto textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+}
