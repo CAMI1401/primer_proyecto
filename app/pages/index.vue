@@ -24,9 +24,9 @@
     <div class="columna-mosaico">
         <div class="grid-mosaico">
            <img src="/reunion.jpg" data-aos="flip-left" class="img-mosaico img-1">
-           <img src="/reunion.jpg" data-aos="fade-up" data-aos-delay="200" class="img-mosaico img-2">
-           <img src="/reunion.jpg" data-aos="zoom-in-right" data-aos-delay="400" class="img-mosaico img-3">
-           <img src="/reunion.jpg" data-aos="fade-up-left" data-aos-delay="600" class="img-mosaico img-4">
+           <img src="/reunion.jpg" data-aos="fade-up" data-aos-delay="300" class="img-mosaico img-2">
+           <img src="/reunion.jpg" data-aos="zoom-in-right" data-aos-delay="600" class="img-mosaico img-3">
+           <img src="/reunion.jpg" data-aos="fade-up-left" data-aos-delay="900" class="img-mosaico img-4">
         </div>
       </div>
       </div>
@@ -36,26 +36,38 @@
           <img src="/reunion.jpg" alt="Reunión 3" class="img-mosaico img-3">
           <img src="/reunion.jpg" alt="Reunión 4" class="img-mosaico img-4"> -->
 
-    <section class="contenido-extra">
-      <h2>Nuestros Servicios</h2>
-      <div class="contenedor-cards">
-        <div class="card">
-          <div class="icono">📁</div>
-          <h3>Gestión</h3>
-          <p>Control total de documentos y procesos internos.</p>
-        </div>
-        <div class="card">
-          <div class="icono">📊</div>
-          <h3>Reportes</h3>
-          <p>Visualización de datos en tiempo real.</p>
-        </div>
-        <div class="card">
-          <div class="icono">👥</div>
-          <h3>Usuarios</h3>
-          <p>Administración eficiente de todo el personal.</p>
-        </div>
+   <!-- CONTENER SOBRE LOS SERVCIOS QUE OFRECE-->
+   <section class="contenido-servicios" >
+  <h1>Nuestros Servicios</h1>
+  <div class="contenedor-cards">
+    
+    <div class="card" v-motion="animacionCard" >
+      <div class="icono">
+        <img src="/servicio-al-cliente.png" alt="Atencion">
       </div>
-    </section>
+      <h3>Atención al cliente</h3>
+      <p>Control total de documentos y procesos internos.</p>
+    </div>
+
+    <div class="card" v-motion="animacionCard" >
+      <div class="icono">
+        <img src="/analitica.png" alt="Analisis">
+      </div>
+      <h3>Análisis y Balance</h3>
+      <p>Visualización de datos en tiempo real.</p>
+    </div>
+
+    <div class="card" v-motion="animacionCard">
+      <div class="icono">
+        <img src="/technical-service.png" alt="Tecnico">
+      </div>
+      <h3>Servicio técnico</h3>
+      <p>Administración eficiente de todo el personal.</p>
+    </div>
+
+  </div>
+</section>
+
   </div>
 </template>
 
@@ -66,7 +78,6 @@
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { onMounted } from 'vue'
-
 onMounted(() => {
   AOS.init({
     // Configuraciones opcionales:
@@ -75,4 +86,29 @@ onMounted(() => {
     mirror: true,   // Animación al hacer scroll hacia arriba también
   })
 })
+const animacionCard = {
+  initial: { 
+    opacity: 0, // La tarjeta empieza siendo totalmente invisible.
+    y: 100,
+    scale: 1 // Aseguramos que el punto de partida sea escala 1
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0, // Sube suavemente hasta su posición final (0 desplazamiento).
+    scale: 1, // Al aparecer, se mantiene en escala 1
+    transition: { duration: 800 } // La animación de entrada dura 0.8 segundos (muy elegante).
+  },
+  hovered: { 
+    scale: 1.05, 
+    y: -15, // La tarjeta "flota" subiendo 15 píxeles.
+    boxShadow: '0 20px 25px rgba(0,0,0,0.1)' 
+  },
+  // Fuerza a la tarjeta a volver cuando el mouse sale
+  leave: {
+    scale: 1,// Obliga a la tarjeta a encogerse de nuevo a su tamaño original 
+    y: 0,
+    boxShadow: '0px 0px 0px rgba(0,0,0,0)'
+  },
+  tapped: { scale: 0.95 } // Se encoge un 5% (simula que la tarjeta se hunde al presionarla).
+}
 </script>

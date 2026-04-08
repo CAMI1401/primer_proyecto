@@ -50,105 +50,7 @@
   transform: scale(1.05); /* Se agranda un poquito al pasar el mouse */
 }
 
-/* 4. SECCIÓN DE ABAJO (DONDE IRÁN LAS CARDS) */
-.contenido-extra {
-  padding: 100px 20px;
-  text-align: center;
-  background-color: white;
-  min-height: 500px; /* Espacio de sobra para trabajar luego */
-}
 
-
-/* 5. DISEÑO DE LAS CARDS (ESTILO EMPRESARIAL) */
-.contenedor-cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap; /* Para que en celular se pongan una debajo de otra */
-  margin-top: 40px;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 30px;
-  width: 300px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-
-.card:hover {
-  transform: translateY(-10px); /* La tarjeta sube un poco */
-  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-}
-
-.icono {
-  font-size: 3rem;
-  margin-bottom: 15px;
-}
-
-/* El @keyframes es como el 'guion' de la película: define el inicio y el fin */
-@keyframes subir {
-  from {
-    opacity: 0;            /* Empieza invisible */
-    transform: translateY(30px); /* Empieza 30 píxeles más abajo de su posición original */
-  }
-  to {
-    opacity: 1;            /* Termina totalmente visible */
-    transform: translateY(0);    /* Termina en su posición original (sube) */
-  }
-}
-
-/* Esta clase aplica el guion anterior a cualquier elemento HTML */
-.animar-arriba {
-  /* Nombre de la animación | Duración | Curva de velocidad | Se queda en la posición final */
-  animation: subir 0.8s ease-out forwards;
-}
-
-/* Estas clases sirven para que los elementos no aparezcan todos al mismo tiempo */
-.retraso-1 { 
-  animation-delay: 0.2s; /* Espera 0.2 segundos antes de empezar */
-  opacity: 0;            /* Se mantiene oculto mientras espera */
-}
-
-.retraso-2 { 
-  animation-delay: 0.4s; /* Espera 0.4 segundos (aparece después del primero) */
-  opacity: 0; 
-}
-
-
-/* ============================================================
-   7. TRANSICIÓN ENTRE PÁGINAS (Magia de Nuxt)
-   Estas clases las busca Nuxt automáticamente cuando cambias de URL
-   ============================================================ */
-
-/* Define cómo se comporta la transición mientras está ocurriendo */
-.fade-enter-active,
-.fade-leave-active {
-  /* Aplica una transición suave solo a la opacidad durante 0.4 segundos */
-  transition: opacity 0.4s ease;
-}
-
-/* Define el estado "invisible" de la página (al inicio y al final) */
-.fade-enter-from, /* Punto de partida cuando la página entra */
-.fade-leave-to   /* Punto final cuando la página se va */ {
-  opacity: 0;      /* Totalmente transparente */
-}
-.titulo-principal { font-size: 4rem; color: #1e293b; }
-.btn-principal {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 15px 40px;
-  background-color: #3b82f6;
-  color: white;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: bold;
-}
 /* el selec sobre nosotros*/
 
 .sobre-nosotros {
@@ -251,7 +153,7 @@ grid-row: 4/ 5;    /* Ocupa solo la última fila */
 .img-4 {
 grid-column: 3/ 5;
 grid-row: 3 / 5; /* De la línea 2 a la 5 (es muy ancha, ocupa 3 columnas) */
-margin-top: 10px;}
+}
 /* Definimos la animación de "flote" */
 /*  @keyframes balanceo {
   0% { transform: translateY(0) rotate(0deg); }
@@ -275,3 +177,45 @@ margin-top: 10px;}
   transform: scale(1.05) rotate(-2deg) !important; 
   box-shadow: 0 20px 30px rgba(0,0,0,0.4);
 } */
+
+
+/* DISEÑO DE LOS SERVICIOS*/
+/* Ajuste para la sección de servicios */
+.contenido-servicios {
+  padding: 100px 20px;
+  text-align: center;
+  background-color: #bbddfad3; /* Un gris muy claro para diferenciarlo del Sobre Nosotros */
+}
+.contenedor-cards{
+  display: flex; /* alinea en fila */
+  justify-content: center; /*las iamgenes se van al centro*/
+  gap: 30px;/*sepacricon */
+  margin-top: 50px; /*separacion del titulo a los contenedores */
+
+}
+/* Estilo para el contenedor de la imagen del icono */
+.icono {
+  width: 80px;      /* Tamaño del contenedor del icono */
+  height: 80px;
+  margin: 0 auto 20px; /* Centra el icono y le da espacio abajo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icono img {
+  width: 100%;      /* La imagen se ajusta al ancho del contenedor */
+  height: auto;     /* Mantiene la proporción */
+  object-fit: contain; /* Evita que la imagen se estire feo */
+}
+
+/* Mantenemos tu diseño de Card empresarial */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #cad0da;
+  border-radius: 16px; /* Un poco más redondeado para estilo moderno */
+  padding: 40px 30px;  /* evita que el texto toque los bordes de la pagina */
+  width: 300px;
+  max-height: 450px;    /* Altura máxima */
+  cursor: pointer; /* Para que salga la manito */
+}

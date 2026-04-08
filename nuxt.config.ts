@@ -9,7 +9,13 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page'},
     // // Removido 'mode: out-in' para evitar conflictos con los nodos raíz y garantizar la navegación fluida.
   },
+  modules: [
+    'nuxt-svgo', 
+    '@vueuse/motion/nuxt' // 👈 Solo este debe estar aquí relacionado a motion
+  ],
   css: ['~/assets/css/index.css'],
 
-  modules: ['nuxt-svgo']
+ 
+  
+
 })

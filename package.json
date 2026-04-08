@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@vueuse/motion": "^3.0.3",
     "aos": "^2.3.4",
     "nuxt": "^4.4.2",
     "nuxt-svgo": "^4.2.6",

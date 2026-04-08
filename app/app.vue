@@ -1,8 +1,10 @@
 <template>
+
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
 </template>
+
 <style>
 /* NUXT BUSCA ESTOS NOMBRES EXACTOS 
    porque en el config pusiste name: 'page' 
@@ -11,7 +13,7 @@
 /* 1. La velocidad del movimiento */
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.4s ease;
+  transition: all 0.80s ease; /* tiempo para mover la paginas*/
 }
 
 /* 2. El estado "invisible" (de donde viene y a donde va) */
