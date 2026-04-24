@@ -1,114 +1,178 @@
+<script setup>
+import { ref } from 'vue' // Agrega esto siempre para evitar errores de 'ref not defined'
+
+// Importamos manualmente ya que los auto-imports parecen no estar activos
+import { useAuth } from '~/composables/useAuth'
+
+import Swal from 'sweetalert2' // 👈 AGREGA ESTA LÍNEA
+
+// Llamamos al composable justo aquí
+const auth = useAuth()
+
+const user = ref('')
+const pass = ref('')
+
+// Los usuarios permitidos
+const usuariosValidos = [
+  { user: 'secretaria', pass: '123', rol: 'secretaria' },
+  { user: 'jefe', pass: '123', rol: 'jefe' },
+  { user: 'admin', pass: '123', rol: 'admin' }
+]
+
+const entrar = async () => {
+  const encontrado = usuariosValidos.find(u => u.user === user.value && u.pass === pass.value)
+  
+  if (encontrado) {
+    // Usamos auth.login porque lo definimos arriba
+    await auth.login(encontrado.rol)
+  } else {
+    // Usando SweetAlert2 como tenías planeado
+    Swal.fire({
+      icon: 'error',
+      title: 'Acceso Denegado',
+      text: 'Usuario o contraseña incorrectos',
+      confirmButtonColor: '#ff6b6b'
+    })
+  }
+}
+</script>
+
 <template>
-  <!-- CONTENEDOR PRINCIPAL -->
-  <div class="inicio">
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Bienvenida</h1>
-        <p>Sistema principal de prácticas</p>
-        <NuxtLink to="/registro" class="btn-comenzar">
-          Empezar ahora
-        </NuxtLink>
-      </div>
-    </section>
-    <!-- CONTENEDOR sobre nosotros-->
-    <section class="sobre-nosotros">
-      <div class="fila-layout">  <!-- que va a la izquierda y que va a la derecha-->
-       <div class="columna-texto">
-        <h1>Sobre Nosotros</h1>
-        <p class="texto-descripcion">
-          Aquí va tu texto informativo. Puedes hablar de la trayectoria de la empresa, 
-          sus valores o el propósito de este sistema de prácticas. 
-        </p>
+  <div class="login-wrapper">
+    <div class="decor-circle circle-1"></div>
+    <div class="decor-circle circle-2"></div>
+
+    <div class="login-card">
+      <div class="login-header">
+        <h2 class="title">¡Bienvenida!</h2>
+        <p class="subtitle">Ingresa tus datos para gestionar el catálogo</p>
       </div>
 
-    <div class="columna-mosaico">
-        <div class="grid-mosaico">
-           <img src="/reunion.jpg" data-aos="flip-left" class="img-mosaico img-1">
-           <img src="/reunion.jpg" data-aos="fade-up" data-aos-delay="300" class="img-mosaico img-2">
-           <img src="/reunion.jpg" data-aos="zoom-in-right" data-aos-delay="600" class="img-mosaico img-3">
-           <img src="/reunion.jpg" data-aos="fade-up-left" data-aos-delay="900" class="img-mosaico img-4">
-        </div>
+      <div class="form-group">
+        <label>Usuario</label>
+        <input v-model="user" type="text" class="custom-input" placeholder="Ej: camila_admin">
       </div>
-      </div>
-    </section>
-     <!-- <img src="/reunion.jpg" alt="Reunión 1" class="img-mosaico img-1">
-          <img src="/reunion.jpg" alt="Reunión 2" class="img-mosaico img-2">
-          <img src="/reunion.jpg" alt="Reunión 3" class="img-mosaico img-3">
-          <img src="/reunion.jpg" alt="Reunión 4" class="img-mosaico img-4"> -->
 
-   <!-- CONTENER SOBRE LOS SERVCIOS QUE OFRECE-->
-   <section class="contenido-servicios" >
-  <h1>Nuestros Servicios</h1>
-  <div class="contenedor-cards">
-    
-    <div class="card" v-motion="animacionCard" >
-      <div class="icono">
-        <img src="/servicio-al-cliente.png" alt="Atencion">
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input v-model="pass" type="password" class="custom-input" placeholder="••••••••">
       </div>
-      <h3>Atención al cliente</h3>
-      <p>Control total de documentos y procesos internos.</p>
+
+      <button @click="entrar" class="btn-login">
+        Ingresar al Sistema
+      </button>
     </div>
-
-    <div class="card" v-motion="animacionCard" >
-      <div class="icono">
-        <img src="/analitica.png" alt="Analisis">
-      </div>
-      <h3>Análisis y Balance</h3>
-      <p>Visualización de datos en tiempo real.</p>
-    </div>
-
-    <div class="card" v-motion="animacionCard">
-      <div class="icono">
-        <img src="/technical-service.png" alt="Tecnico">
-      </div>
-      <h3>Servicio técnico</h3>
-      <p>Administración eficiente de todo el personal.</p>
-    </div>
-
-  </div>
-</section>
-
   </div>
 </template>
 
-
-<!-- IMPORTAMOS EL CSS EXTERNO -->
-<style src="~/assets/css/index.css"></style>
-<script setup>
-import AOS from 'aos'
-import 'aos/dist/aos.css'
-import { onMounted } from 'vue'
-onMounted(() => {
-  AOS.init({
-    // Configuraciones opcionales:
-    duration: 1000, // Qué tan lento se mueve (1000 = 1 segundo)
-    once: false,    // Si quieres que se repita la animación cada vez que subas y bajes
-    mirror: true,   // Animación al hacer scroll hacia arriba también
-  })
-})
-const animacionCard = {
-  initial: { 
-    opacity: 0, // La tarjeta empieza siendo totalmente invisible.
-    y: 100,
-    scale: 1 // Aseguramos que el punto de partida sea escala 1
-  },
-  visible: { 
-    opacity: 1, 
-    y: 0, // Sube suavemente hasta su posición final (0 desplazamiento).
-    scale: 1, // Al aparecer, se mantiene en escala 1
-    transition: { duration: 800 } // La animación de entrada dura 0.8 segundos (muy elegante).
-  },
-  hovered: { 
-    scale: 1.05, 
-    y: -15, // La tarjeta "flota" subiendo 15 píxeles.
-    boxShadow: '0 20px 25px rgba(0,0,0,0.1)' 
-  },
-  // Fuerza a la tarjeta a volver cuando el mouse sale
-  leave: {
-    scale: 1,// Obliga a la tarjeta a encogerse de nuevo a su tamaño original 
-    y: 0,
-    boxShadow: '0px 0px 0px rgba(0,0,0,0)'
-  },
-  tapped: { scale: 0.95 } // Se encoge un 5% (simula que la tarjeta se hunde al presionarla).
+<style scoped>
+/* Contenedor principal con gradiente suave */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+  position: relative;
+  overflow: hidden;
 }
-</script>
+
+/* Tarjeta con efecto Glassmorphism */
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  color: #4a4a4a;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #8e8e8e;
+  font-size: 0.9rem;
+}
+
+/* Grupos de formulario */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Inputs personalizados */
+.custom-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.custom-input:focus {
+  border-color: #d1bfa7;
+  box-shadow: 0 0 8px rgba(209, 191, 167, 0.3);
+}
+
+/* Botón elegante */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background-color: #4a4a4a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-login:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+/* Decoración del fondo */
+.decor-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  z-index: 1;
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  background: #f5e1da;
+  top: -50px;
+  right: -50px;
+}
+
+.circle-2 {
+  width: 400px;
+  height: 400px;
+  background: #d4e2d4;
+  bottom: -100px;
+  left: -100px;
+}
+</style>

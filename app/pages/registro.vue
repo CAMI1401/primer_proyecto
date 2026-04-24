@@ -1,20 +1,19 @@
 <script setup>
-
 import { ref, onMounted } from 'vue'
+import { useAuth } from '~/composables/useAuth'
+
+// Intentemos llamar a useAuth de forma segura
+const auth = useAuth()
+
+const rolActual = auth.rolActual
 
 // 📦 Lista de usuarios
 const lista = ref([])
 
 // 📋 Formulario
 const formulario = ref({
-  ci: '',
-  nombre: '',
-  ap_paterno: '',
-  ap_materno: '',
-  edad: '',
-  telefono: '',
-  direccion: '',
-  cargo: ''
+  ci: '', nombre: '', ap_paterno: '', ap_materno: '',
+  edad: '', telefono: '', direccion: '', cargo: ''
 })
 
 // 🎛️ Modal
@@ -29,9 +28,10 @@ const busqueda = ref('')
 
 // 🔘 Abrir modal
 const abrirModal = () => {
-  mostrarModal.value = true
-  editando.value = false
-  limpiar()
+  return navigateTo('/registrarus')
+  // mostrarModal.value = true
+  // editando.value = false
+  // limpiar()
 }
 
 // ❌ Cerrar modal
@@ -42,24 +42,24 @@ const cerrarModal = () => {
 // 🧹 Limpiar formulario
 const limpiar = () => {
   formulario.value = {
-    ci: '',
-    nombre: '',
-    ap_paterno: '',
-    ap_materno: '',
-    edad: '',
-    telefono: '',
-    direccion: '',
-    cargo: ''
+    ci: '', nombre: '', ap_paterno: '', ap_materno: '',
+    edad: '', telefono: '', direccion: '', cargo: ''
   }
 }
 
-// */ 💾 GUARDAR EN LOCALSTORAGE
-//const guardarLocal = () => {
- // localStorage.setItem('usuarios', JSON.stringify(lista.value))
-//}
+// 💾 Guardar en LocalStorage
+const guardarLocal = () => {
+  localStorage.setItem('usuarios', JSON.stringify(lista.value))
+}
 
-// 💾 Guardar o actualizar
+// 💾 Guardar o actualizar lo estamos manejando para que  guarde los datos y solo le aparesca a jefe
 const guardar = () => {
+  // 🔥 SEGURIDAD EXTRA: Si alguien intenta editar y no es admin, no lo dejamos
+  if (editando.value && rolActual.value !== 'secretaria') {
+    alert('No tienes permiso para editar registros')
+    return
+  }
+
   if (editando.value) {
     lista.value[indexEditar.value] = { ...formulario.value }
     editando.value = false
@@ -68,22 +68,32 @@ const guardar = () => {
     lista.value.push({ ...formulario.value })
   }
 
-  guardarLocal() // 🔥 Guardamos
+  guardarLocal() 
   cerrarModal()
 }
 
 // ✏️ Editar
 const editar = (index) => {
-  formulario.value = { ...lista.value[index] }
-  editando.value = true
-  indexEditar.value = index
-  mostrarModal.value = true
+return navigateTo({
+    path: '/editarus',
+    query: { id: index }
+  })
+
+  // formulario.value = { ...lista.value[index] }
+  // editando.value = true
+  // indexEditar.value = index
+  // mostrarModal.value = true
 }
 
 // 🗑️ Eliminar
 const eliminar = (index) => {
-  lista.value.splice(index, 1)
-  guardarLocal() // 🔥 Guardamos cambios
+  // Mandamos el ID (índice) por la URL: /eliminarus?id=0
+  return navigateTo({
+    path: '/eliminarus',
+    query: { id: index }
+  })
+  // lista.value.splice(index, 1)
+  // guardarLocal() 
 }
 
 // 🔍 Filtrar
@@ -101,19 +111,24 @@ onMounted(() => {
   }
 })
 </script>
-
 <template>
   <div class="registro">
 
     <h1>Registro de Usuarios</h1>
+    <p v-if="rolActual">Conectado como: <strong>{{ rolActual }}</strong></p>
 
-    <!-- BOTONES -->
-    <div  class="acciones">
-      <button class="btn-registrar" @click="abrirModal">Registrar</button>
+    <div class="acciones">
+      <button 
+      
+        class="btn-registrar" 
+        @click="abrirModal"
+      >
+        Registrar
+      </button>
+      
       <input v-model="busqueda" placeholder="Buscar por nombre" />
     </div>
 
-    <!-- TABLA -->
     <table>
       <thead>
         <tr>
@@ -138,20 +153,29 @@ onMounted(() => {
           <td>{{ item.telefono }}</td>
           <td>{{ item.cargo }}</td>
           <td>
-            <button class="btn-editar"  @click="editar(index)">Editar</button>
-            <button class="btn-eliminar"  @click="eliminar(index)">Eliminar</button>
+            <button 
+              class="btn-editar"  
+              @click="editar(index)"
+            >
+              Editar
+            </button>
+
+            <button 
+           
+              class="btn-eliminar"  
+              @click="eliminar(index)"
+            >
+              Eliminar
+            </button>
           </td>
 
         </tr>
       </tbody>
     </table>
 
-    <!-- MODAL -->
     <div v-if="mostrarModal" class="modal">
       <div class="modal-content">
-
         <h2>{{ editando ? 'Editar' : 'Registrar' }}</h2>
-
         <input v-model="formulario.ci" placeholder="Carnet" />
         <input v-model="formulario.nombre" placeholder="Nombre" />
         <input v-model="formulario.ap_paterno" placeholder="Apellido Paterno" />
@@ -171,12 +195,10 @@ onMounted(() => {
           <button class="btn-guardar" @click="guardar">Guardar</button>
           <button class="btn-cancelar" @click="cerrarModal">Cancelar</button>
         </div>
-
       </div>
     </div>
 
   </div>
 </template>
 
-<!-- CSS EXTERNO -->
 <style src="~/assets/css/registro.css"></style>

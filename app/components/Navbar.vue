@@ -1,3 +1,19 @@
+
+<script setup>
+import { useAuth } from '~/composables/useAuth'
+
+// Accedemos a la sesión
+const auth = useAuth()
+const rolActual = auth.rolActual
+
+// Función para cerrar sesión
+const cerrarSesion = () => {
+  if (confirm('¿Quieres cerrar la sesión?')) {
+    auth.logout()
+  }
+}
+</script>
+
 <template>
   <!-- HEADER principal (barra superior) -->
   <header class="nav">
@@ -13,9 +29,13 @@
     <!-- MENÚ DE NAVEGACIÓN -->
     <nav>
       <!-- NuxtLink sirve para cambiar de página sin recargar -->
-      <NuxtLink to="/">Inicio</NuxtLink>
+      <NuxtLink to="/bienvenida">Inicio</NuxtLink>
       <NuxtLink to="/registro">Registro</NuxtLink>
       <NuxtLink to="/contacto">Contacto</NuxtLink>
+        <div v-if="rolActual" class="user-section">
+        <span class="badge-rol">{{ rolActual }}</span>
+        <button class="btn-salir" @click="cerrarSesion">Salir</button>
+        </div>
     </nav>
 
   </header>
@@ -72,5 +92,40 @@ a {
   color: white;
   text-decoration: none;
   font-weight: bold;
+}
+/* Sección que agrupa Rol y Botón */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: 20px; /* Separa de los links normales */
+  border-left: 1px solid #60a5fa; /* Una pequeña línea divisoria */
+  padding-left: 20px;
+}
+
+/* Etiqueta del Rol */
+.badge-rol {
+  background: #1e3a8a; /* Azul oscuro */
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Botón Salir */
+.btn-salir {
+  background: #ef4444; /* Rojo */
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-salir:hover {
+  background: #b91c1c;
 }
 </style>

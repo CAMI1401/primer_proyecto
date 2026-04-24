@@ -1,21 +1,22 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  // Mantenemos la fecha de compatibilidad y devtools
+  // 🚀 ESTA ES LA LÍNEA MÁGICA:
+  srcDir: 'app/',
+
+  // Mantenemos tu configuración de fecha
   compatibilityDate: '2025-07-15',
 
   devtools: { enabled: true },
 
   app: {
-    pageTransition: { name: 'page'},
-    // // Removido 'mode: out-in' para evitar conflictos con los nodos raíz y garantizar la navegación fluida.
+    pageTransition: { name: 'page' },
   },
+
   modules: [
     'nuxt-svgo', 
-    '@vueuse/motion/nuxt' // 👈 Solo este debe estar aquí relacionado a motion
+    '@vueuse/motion/nuxt'
   ],
+
+  // Al poner srcDir: 'app/', Nuxt buscará assets dentro de app/assets
   css: ['~/assets/css/index.css'],
-
- 
-  
-
 })
