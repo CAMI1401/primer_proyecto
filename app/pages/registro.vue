@@ -53,23 +53,38 @@ const guardarLocal = () => {
 }
 
 // 💾 Guardar o actualizar lo estamos manejando para que  guarde los datos y solo le aparesca a jefe
+// pages/registro.vue
 const guardar = () => {
-  // 🔥 SEGURIDAD EXTRA: Si alguien intenta editar y no es admin, no lo dejamos
-  if (editando.value && rolActual.value !== 'secretaria') {
-    alert('No tienes permiso para editar registros')
-    return
+  // 1. Convertimos lo que sea que venga en la cookie a minúsculas
+  const miRol = String(rolActual.value || '').toLowerCase().trim();
+
+
+
+  // 3. Si pasó el filtro, guardamos...
+  if (editando.value) {
+    lista.value[indexEditar.value] = { ...formulario.value };
+    editando.value = false;
+  } else {
+    lista.value.push({ ...formulario.value });
   }
 
+  guardarLocal();
+  cerrarModal();
+  alert('¡Cambios guardados!');
+};
+
+// Creamos una función aparte para no repetir código
+const ejecutarGuardado = () => {
   if (editando.value) {
     lista.value[indexEditar.value] = { ...formulario.value }
     editando.value = false
-    indexEditar.value = null
   } else {
     lista.value.push({ ...formulario.value })
   }
-
+  
   guardarLocal() 
   cerrarModal()
+  alert('¡Datos guardados con éxito!')
 }
 
 // ✏️ Editar
@@ -110,6 +125,22 @@ onMounted(() => {
     lista.value = JSON.parse(data)
   }
 })
+
+const guardarPermiso = () => {
+  // 🟢 USAMOS COOKIES, NO LOCALSTORAGE
+  const permisosCookie = useCookie('tabla_permisos', {
+    watch: true,
+    default: () => ({})
+  })
+  
+  const actual = { ...permisosCookie.value }
+  // form.value.ruta debe ser "/editarus" o "/eliminarus"
+  actual[form.value.ruta] = form.value.rol
+  
+  permisosCookie.value = actual
+  
+  alert(`Regla guardada: ${form.value.ruta} ahora es para ${form.value.rol}`)
+}
 </script>
 <template>
   <div class="registro">
@@ -153,21 +184,14 @@ onMounted(() => {
           <td>{{ item.telefono }}</td>
           <td>{{ item.cargo }}</td>
           <td>
-            <button 
-              class="btn-editar"  
-              @click="editar(index)"
-            >
-              Editar
-            </button>
+  <button class="btn-editar" @click="editar(index)">
+    Editar
+  </button>
 
-            <button 
-           
-              class="btn-eliminar"  
-              @click="eliminar(index)"
-            >
-              Eliminar
-            </button>
-          </td>
+  <button class="btn-eliminar" @click="eliminar(index)">
+    Eliminar
+  </button>
+</td>
 
         </tr>
       </tbody>

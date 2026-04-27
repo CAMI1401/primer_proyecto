@@ -22,17 +22,22 @@ const formulario = ref({
 
 // Función para guardar
 const guardarNuevo = () => {
-  // 1. Obtener lo que ya hay en LocalStorage
+  // 1. Limpiamos el rol para comparar sin errores
+  const miRol = String(rolActual.value || '').toLowerCase().trim();
+
+  // 2. 🛡️ FILTRO DE SEGURIDAD: Solo Jefe o Gerente pueden crear usuarios
+  if (miRol !== 'gerente' && miRol !== 'jefe') {
+   return navigateTo('/denegado?rol=jefe') // <--- EL REDIRECCIONAMIENTO
+  }
+
+  // 3. Si pasó el filtro (es jefe o gerente), procedemos:
   const datosExistentes = localStorage.getItem('usuarios')
   const lista = datosExistentes ? JSON.parse(datosExistentes) : []
 
-  // 2. Agregar el nuevo formulario a la lista
   lista.push({ ...formulario.value })
-
-  // 3. Guardar de nuevo en LocalStorage
   localStorage.setItem('usuarios', JSON.stringify(lista))
 
-  // 4. Volver a la tabla de registros
+  alert('✅ Registro creado con éxito por el ' + miRol);
   return navigateTo('/registro')
 }
 

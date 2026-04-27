@@ -1,7 +1,10 @@
 <script setup>
 import { useRoute } from 'vue-router'
+import {computed} from 'vue'
+import { useAuth } from '~/composables/useAuth'
 
 const route = useRoute()
+
 
 // Obtenemos el nombre del rol encargado desde la URL
 // Ejemplo: /denegado?rol=administrador

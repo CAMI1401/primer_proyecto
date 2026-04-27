@@ -32,6 +32,14 @@ const cerrarSesion = () => {
       <NuxtLink to="/bienvenida">Inicio</NuxtLink>
       <NuxtLink to="/registro">Registro</NuxtLink>
       <NuxtLink to="/contacto">Contacto</NuxtLink>
+<NuxtLink 
+        v-if="rolActual === 'gerente'" 
+        to="/admin/permisos" 
+        class="link-admin"
+      >
+        ⚙️ Permisos
+      </NuxtLink>
+
         <div v-if="rolActual" class="user-section">
         <span class="badge-rol">{{ rolActual }}</span>
         <button class="btn-salir" @click="cerrarSesion">Salir</button>
@@ -127,5 +135,20 @@ a {
 
 .btn-salir:hover {
   background: #b91c1c;
+}
+/* Estilo especial para el link de Admin/Gerente */
+.link-admin {
+  color: #fbbf24 !important; /* Un color amarillo/dorado para que resalte del resto */
+  border: 1px solid #fbbf24;
+  padding: 5px 12px !important;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.link-admin:hover {
+  background-color: #fbbf24 !important;
+  color: #1e3a8a !important;
 }
 </style>

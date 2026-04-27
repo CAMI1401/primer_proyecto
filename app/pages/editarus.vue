@@ -27,22 +27,22 @@ onMounted(() => {
 })
 
 const actualizar = () => {
-  // SEGURIDAD: Solo secretaria puede editar (según tu lógica previa)
-  if (rolActual.value !== 'secretaria') {
-    alert('No tienes permisos para editar')
-    return
-  }
+  // 1. Limpiamos el rol para que no nos fallen las mayúsculas (GERENTE vs gerente)
+  const miRol = String(rolActual.value || '').toLowerCase().trim();
 
-  const data = localStorage.getItem('usuarios')
-  if (data) {
-    const lista = JSON.parse(data)
-    // Reemplazamos los datos viejos por los nuevos del formulario
-    lista[indexUsuario.value] = { ...formulario.value }
-    // Guardamos la lista actualizada
-    localStorage.setItem('usuarios', JSON.stringify(lista))
-    // Volvemos a la tabla
-    return navigateTo('/registro')
-  }
+  // 2. NUEVA LÓGICA: ¿Es gerente o es secretaria?
+  if (miRol === 'gerente' || miRol === 'secretaria') {
+    // ✅ SI TIENE PERMISO, PROCEDEMOS
+    const data = localStorage.getItem('usuarios')
+    if (data) {
+      const lista = JSON.parse(data)
+      lista[indexUsuario.value] = { ...formulario.value }
+      localStorage.setItem('usuarios', JSON.stringify(lista))
+      
+      alert('¡Excelente! Registro actualizado correctamente.')
+      return navigateTo('/registro')
+    }
+  } 
 }
 
 const cancelar = () => navigateTo('/registro')

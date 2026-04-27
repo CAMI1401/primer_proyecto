@@ -1,46 +1,39 @@
+// app/middleware/auth.global.ts
 export default defineNuxtRouteMiddleware((to, from) => {
-  // Obtenemos la cookie del rol 
   const rol = useCookie('rol')
-
-  // 1. Definimos las rutas que son públicas (no requieren login)
-  // Agregamos '/' (login) como pública por defecto. aqui estra cualquiera al login
+  const path = to.path.replace(/\/$/, '') || '/'
   const publicRoutes = ['/']
 
-  //ESTAMOS PODIENDO ESTO SI NO FUNIONA BORRA
-const permisos: Record<string, string> = {
-  '/registrarus': 'jefe',
-    '/editarus': 'secretaria',
-    '/eliminarus': 'admin'
-}
-  //BORRA
-
-  // Si quieres que 'registro' sea pública para que cualquiera entre, descomenta la línea de abajo:
-  // publicRoutes.push('/registro')
-
-  // 2. Normalizamos la ruta de destino (quitando barras finales si las hay)
-  const path = to.path.replace(/\/$/, '') || '/'
-
-  // 3. LÓGICA DE PROTECCIÓN
-  // Si NO hay rol y la ruta NO está en la lista de públicas -> Mandar al login
   if (!rol.value && !publicRoutes.includes(path)) {
     return navigateTo('/')
   }
 
-  // 4. LÓGICA DE REDIRECCIÓN (Evitar que un logueado vea el login)
-  // Si SÍ hay rol e intenta ir al login ('/') -> Mandar al panel principal (registro)
-  if (rol.value && path === '/') {
-    return navigateTo('/registro')
+  // 1. REGLAS BASE (Lo que antes tenías fijo)
+  // Esto asegura que aunque la cookie esté vacía, haya seguridad mínima
+  const reglasBase: Record<string, string> = {
+    '/registrarus': 'jefe',
+    '/editarus': 'secretaria',
+    '/eliminarus': 'admin'
   }
 
-  //si no funciona borra
-if(permisos[path]){
-   const rolRequerido = permisos[path]
+  // 2. REGLAS DINÁMICAS (Lo que guardas en tu panel de permisos)
+  const permisosCookie = useCookie<Record<string, string>>('tabla_permisos')
+  
+  // Combinamos: primero las base y luego las de la cookie (la cookie manda)
+  const permisos = { ...reglasBase, ...(permisosCookie.value || {}) }
 
-   if (rol.value !==rolRequerido) {
+  // 👑 3. SUPERPODER DEL GERENTE
+  // Si es gerente y NO va a la página de denegado, déjalo pasar a TODO
+  if (rol.value === 'gerente') {
+    if (path === '/denegado') return 
+    return 
+  }
+
+  // 4. VERIFICACIÓN DE SEGURIDAD
+  const rolRequerido = permisos[path]
+
+  if (rolRequerido && rol.value !== rolRequerido) {
+    // Si la ruta pide algo y tú no lo tienes, ¡A DENEGADO!
     return navigateTo(`/denegado?rol=${rolRequerido}`)
-   }
-}
-
-  //si no funciona borra
-
+  }
 })

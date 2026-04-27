@@ -23,20 +23,27 @@ onMounted(() => {
 })
 
 const confirmarEliminacion = () => {
-  // SEGURIDAD: Solo el ADMIN puede borrar (según tu lógica)
-  if (rolActual.value !== 'admin') {
-    alert('No tienes permisos de administrador para borrar')
-    return navigateTo('/registro')
+  // 1. Normalizamos el rol (quitar espacios y pasar a minúsculas)
+  const miRol = String(rolActual.value || '').toLowerCase().trim();
+
+  // 2. Definimos quiénes pueden borrar
+  // Si NO es gerente Y NO es admin, lo rebotamos
+  if (miRol !== 'gerente' && miRol !== 'admin') {
+   
   }
 
+  // 3. Si pasó el filtro, procedemos al borrado
   const data = localStorage.getItem('usuarios')
   if (data) {
     const lista = JSON.parse(data)
-    // Borramos el elemento en esa posición
+    
+    // Borramos el elemento
     lista.splice(indexUsuario.value, 1)
-    // Guardamos la lista actualizada
+    
+    // Guardamos y avisamos
     localStorage.setItem('usuarios', JSON.stringify(lista))
-    // Regresamos a la tabla
+    alert('Usuario eliminado correctamente.')
+    
     return navigateTo('/registro')
   }
 }
