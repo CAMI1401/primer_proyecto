@@ -8,6 +8,11 @@ Ahora creamos este archivo. Aquí pondremos el formulario que antes estaba en el
 
 ```vue
 <script setup>
+//estamos llamando a middleware solojefe.ts
+definePageMeta({
+  middleware: 'solojefe'
+})
+
 import { ref } from 'vue'
 import { useAuth } from '~/composables/useAuth'
 
