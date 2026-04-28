@@ -27,28 +27,32 @@ const formulario = ref({
 
 // Función para guardar
 const guardarNuevo = () => {
-  // 1. Limpiamos el rol para comparar sin errores
+ // 1. Obtenemos el rol actual y los permisos dinámicos
   const miRol = String(rolActual.value || '').toLowerCase().trim();
+  const permisosCookie = useCookie('tabla_permisos').value || {};
 
-  // 2. 🛡️ FILTRO DE SEGURIDAD: Solo Jefe o admin pueden crear usuarios
-  if (miRol !== 'admin' && miRol !== 'jefe') {
-   return navigateTo('/denegado?rol=jefe') // <--- EL REDIRECCIONAMIENTO
-  }
+  // 2. Buscamos el permiso para esta ruta (por defecto es 'jefe')
+  const rolRequerido = permisosCookie['/registrarus'] || 'jefe';
 
-  // 3. Si pasó el filtro (es jefe o admin), procedemos:
-  const datosExistentes = localStorage.getItem('usuarios')
-  const lista = datosExistentes ? JSON.parse(datosExistentes) : []
-
-  lista.push({ ...formulario.value })
-  localStorage.setItem('usuarios', JSON.stringify(lista))
-
-  alert('✅ Registro creado con éxito por el ' + miRol);
-  return navigateTo('/registro')
+  // 3. Verificamos si tiene permiso
+  if (miRol === 'admin' || miRol === rolRequerido) {
+    const data = localStorage.getItem('usuarios');
+    const lista = data ? JSON.parse(data) : [];
+    
+    // Agregamos el nuevo usuario
+    lista.push({ ...formulario.value });
+    localStorage.setItem('usuarios', JSON.stringify(lista));
+    
+    alert('¡Usuario registrado con éxito!');
+    return navigateTo('/registro');
+  } 
 }
 
 const cancelar = () => {
   return navigateTo('/registro')
 }
+
+
 </script>
 
 <template>

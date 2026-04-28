@@ -1,10 +1,16 @@
-//middleware/solojefe.ts
 export default defineNuxtRouteMiddleware((to) => {
   const rol = useCookie('rol').value
-  
+// 👑 CORRECCIÓN: Si es admin, terminamos el middleware aquí mismo
+  if (rol === 'admin') return
 
-  // El Admin y el Jefe pueden pasar
-  if (rol !== 'admin' && rol !== 'jefe') {
-    return navigateTo('/denegado?rol=jefe')
+  const path = to.path.replace(/\/$/, '') || '/'
+  
+  const permisosCookie = useCookie<Record<string, string>>('tabla_permisos').value || {}
+  
+  // Si el Admin no ha dicho lo contrario, el rol por defecto es 'jefe'
+  const rolRequerido = permisosCookie[path] || 'jefe'
+
+  if (rol !== rolRequerido) {
+    return navigateTo(`/denegado?rol=${rolRequerido}`)
   }
 })

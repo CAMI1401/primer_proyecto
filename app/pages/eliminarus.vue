@@ -26,29 +26,34 @@ onMounted(() => {
 })
 
 const confirmarEliminacion = () => {
-  // 1. Normalizamos el rol (quitar espacios y pasar a minúsculas)
+  // 1. Obtenemos el rol limpio
   const miRol = String(rolActual.value || '').toLowerCase().trim();
+  
+  // 2. Traemos permisos de la cookie
+  const permisosCookie = useCookie('tabla_permisos').value || {};
+  const rolRequerido = permisosCookie['/eliminarus'] || 'encargado';
 
-  // 2. Definimos quiénes pueden borrar
-  // Si NO es admin Y NO es encargado, lo rebotamos
-  if (miRol !== 'admin' && miRol !== 'encargado') {
-   
-  }
+  // 3. Verificamos: ¿Es admin o el rol permitido?
+  if (miRol === 'admin' || miRol === rolRequerido) {
+    
+    if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+      const data = localStorage.getItem('usuarios');
+      if (data && indexUsuario.value !== null) {
+        let lista = JSON.parse(data);
+        
+        // 🛠️ CORRECCIÓN AQUÍ: Usamos indexUsuario.value
+        lista.splice(indexUsuario.value, 1); 
+        
+        localStorage.setItem('usuarios', JSON.stringify(lista));
+        
+        alert('¡Registro eliminado con éxito!');
+        
+        // 🛠️ CORRECCIÓN AQUÍ: Volvemos a la lista en lugar de recargar
+        return navigateTo('/registro');
+      }
+    }
 
-  // 3. Si pasó el filtro, procedemos al borrado
-  const data = localStorage.getItem('usuarios')
-  if (data) {
-    const lista = JSON.parse(data)
-    
-    // Borramos el elemento
-    lista.splice(indexUsuario.value, 1)
-    
-    // Guardamos y avisamos
-    localStorage.setItem('usuarios', JSON.stringify(lista))
-    alert('Usuario eliminado correctamente.')
-    
-    return navigateTo('/registro')
-  }
+  } 
 }
 
 const cancelar = () => navigateTo('/registro')

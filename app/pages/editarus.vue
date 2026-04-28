@@ -31,19 +31,25 @@ onMounted(() => {
 })
 
 const actualizar = () => {
-  // 1. Limpiamos el rol para que no nos fallen las mayúsculas (admin vs admin)
+  // 1. Obtenemos el rol actual y los permisos dinámicos
   const miRol = String(rolActual.value || '').toLowerCase().trim();
+  const permisosCookie = useCookie('tabla_permisos').value || {};
 
-  // 2. NUEVA LÓGICA: ¿Es admin o es secretaria?
-  if (miRol === 'admin' || miRol === 'secretaria') {
+  // 2. Buscamos qué rol se necesita para ESTA página
+  const rolRequerido = permisosCookie['/editarus'] || 'secretaria';
+
+  // 3. LÓGICA DINÁMICA: ¿Es admin o tiene el rol que dice la cookie?
+  if (miRol === 'admin' || miRol === rolRequerido) {
     // ✅ SI TIENE PERMISO, PROCEDEMOS
     const data = localStorage.getItem('usuarios')
-    if (data) {
+    if (data && indexUsuario.value !== null) {
       const lista = JSON.parse(data)
+      
+      // Actualizamos los datos en la posición correspondiente
       lista[indexUsuario.value] = { ...formulario.value }
       localStorage.setItem('usuarios', JSON.stringify(lista))
       
-      alert('¡Excelente! Registro actualizado correctamente.')
+      alert(`¡Excelente! Registro actualizado como ${miRol}.`)
       return navigateTo('/registro')
     }
   } 

@@ -1,0 +1,151 @@
+/* assets/css/admin.css */
+
+.container-permisos {
+  padding: 2rem;
+  max-width: 700px; /* Lo subí un poco para que la tabla quepa mejor */
+  margin: 40px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container-permisos h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.container-permisos p {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 2rem;
+}
+
+/* Tarjetas (Formulario y Lista) */
+.card-config, .card-lista {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border: 1px solid #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #34495e;
+  font-size: 0.9rem;
+}
+
+.form-group select {
+  padding: 12px;
+  border: 2px solid #ecf0f1;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  outline: none;
+}
+
+.form-group select:focus {
+  border-color: #3498db;
+}
+
+/* Botones principales */
+.btn-guardar {
+  width: 100%;
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.btn-guardar:hover {
+  background: #219150;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+}
+
+/* Tabla de gestión */
+.tabla-permisos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-permisos th {
+  background-color: #f8f9fa;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px;
+  text-align: left;
+}
+
+.tabla-permisos td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #f1f1f1;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+/* Estilo para los Roles (Badges) */
+.badge {
+  background: #e1f5fe;
+  color: #0288d1;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Botón de eliminar regla (Individual) */
+.btn-borrar {
+  background: #fff1f0;
+  color: #ff4d4f;
+  border: 1px solid #ffccc7;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.btn-borrar:hover {
+  background: #ff4d4f;
+  color: white;
+}
+
+/* Botón de Reset total */
+.btn-reset {
+  margin-top: 25px;
+  background: transparent;
+  color: #95a5a6;
+  border: 1px dashed #bdc3c7;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s;
+}
+
+.btn-reset:hover {
+  background: #fdf2f2;
+  color: #e74c3c;
+  border-color: #e74c3c;
+  border-style: solid;
+}

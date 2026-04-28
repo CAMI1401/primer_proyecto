@@ -1,12 +1,15 @@
 export default defineNuxtRouteMiddleware((to) => {
-    // 1. Obtenemos el valor de la cookie
-    const rol = useCookie('rol').value
+  const rol = useCookie('rol').value
+  // 👑 CORRECCIÓN: Si es admin, terminamos el middleware aquí mismo
+  if (rol === 'admin') return
+  const path = to.path.replace(/\/$/, '') || '/'
+  
+  const permisosCookie = useCookie<Record<string, string>>('tabla_permisos').value || {}
+  
+  // Si el Admin no ha dicho lo contrario, el rol por defecto es 'encargado'
+  const rolRequerido = permisosCookie[path] || 'encargado'
 
-
-    // 2. Verificamos: Si NO es admin Y NO es encargado...
-    if (rol !== 'admin' && rol !== 'encargado') {
-        // 3. Redirigimos a la página de denegado corregida
-        return navigateTo('/denegado?rol=encargado')
-    }
-    
+  if (rol !== rolRequerido) {
+    return navigateTo(`/denegado?rol=${rolRequerido}`)
+  }
 })
