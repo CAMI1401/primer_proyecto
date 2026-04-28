@@ -1,7 +1,7 @@
 <template>
   <div class="container-permisos">
     <h1>🛡️ Panel de Control de Accesos</h1>
-    <p>Solo el Gerente puede modificar estas reglas.</p>
+    <p>Solo el admin puede modificar estas reglas.</p>
 
     <div class="card-config">
       <div class="form-group">
@@ -17,10 +17,10 @@
       <div class="form-group">
         <label>Rol Permitido:</label>
         <select v-model="form.rol">
-          <option value="admin">Administrador</option>
+          <option value="encargado">encargado</option>
           <option value="jefe">Jefe</option>
           <option value="secretaria">Secretaria</option>
-          <option value="gerente">Gerente (Acceso Total)</option>
+          <option value="admin">Admintrador (Acceso Total)</option>
         </select>
       </div>
 
@@ -39,7 +39,7 @@ import { useAuth } from '~/composables/useAuth'
 // Este es el valor inicial que aparece al cargar la página.
 const form = ref({ 
   ruta: '/editarus', // Puedes poner la que quieras por defecto
-  rol: 'admin' 
+  rol: 'encargado' 
 })
 
 // 2. La función para guardar en Cookies

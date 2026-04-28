@@ -6,13 +6,13 @@ export const useAuth = () => {
   })
 
   // 2. Lista de usuarios permitidos (Aquí es donde vive el Gerente)
+  // 2. Lista de usuarios permitidos (Aquí es donde vive el Gerente)
   const usuariosValidos = [
     { user: 'secretaria', pass: '123', rol: 'secretaria' },
     { user: 'jefe', pass: '123', rol: 'jefe' },
-    { user: 'admin', pass: '123', rol: 'admin' },
-    { user: 'gerente', pass: '456', rol: 'gerente' } // El nuevo nivel
-  ]
-
+    { user: 'encargado', pass: '123', rol: 'encargado' } , // el que antes era admin se volvio encarago hara los mismo que hacia admin
+    { user: 'admin', pass: '456', rol: 'admin' }
+  ] 
   // 3. Función de Login mejorada
   const login = async (usuario: string, password: string) => {
     // Buscamos si el usuario y contraseña existen en nuestra lista

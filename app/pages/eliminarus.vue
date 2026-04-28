@@ -27,8 +27,8 @@ const confirmarEliminacion = () => {
   const miRol = String(rolActual.value || '').toLowerCase().trim();
 
   // 2. Definimos quiénes pueden borrar
-  // Si NO es gerente Y NO es admin, lo rebotamos
-  if (miRol !== 'gerente' && miRol !== 'admin') {
+  // Si NO es admin Y NO es encargado, lo rebotamos
+  if (miRol !== 'admin' && miRol !== 'encargado') {
    
   }
 

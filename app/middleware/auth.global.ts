@@ -13,7 +13,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const reglasBase: Record<string, string> = {
     '/registrarus': 'jefe',
     '/editarus': 'secretaria',
-    '/eliminarus': 'admin'
+    '/eliminarus': 'encargado'
   }
 
   // 2. REGLAS DINÁMICAS (Lo que guardas en tu panel de permisos)
@@ -22,9 +22,9 @@ export default defineNuxtRouteMiddleware((to, from) => {
   // Combinamos: primero las base y luego las de la cookie (la cookie manda)
   const permisos = { ...reglasBase, ...(permisosCookie.value || {}) }
 
-  // 👑 3. SUPERPODER DEL GERENTE
-  // Si es gerente y NO va a la página de denegado, déjalo pasar a TODO
-  if (rol.value === 'gerente') {
+  // 👑 3. SUPERPODER DEL ADMIN
+  // Si es ADMIN y NO va a la página de denegado, déjalo pasar a TODO
+  if (rol.value === 'admin') {
     if (path === '/denegado') return 
     return 
   }

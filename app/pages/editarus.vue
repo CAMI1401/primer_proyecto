@@ -27,11 +27,11 @@ onMounted(() => {
 })
 
 const actualizar = () => {
-  // 1. Limpiamos el rol para que no nos fallen las mayúsculas (GERENTE vs gerente)
+  // 1. Limpiamos el rol para que no nos fallen las mayúsculas (admin vs admin)
   const miRol = String(rolActual.value || '').toLowerCase().trim();
 
-  // 2. NUEVA LÓGICA: ¿Es gerente o es secretaria?
-  if (miRol === 'gerente' || miRol === 'secretaria') {
+  // 2. NUEVA LÓGICA: ¿Es admin o es secretaria?
+  if (miRol === 'admin' || miRol === 'secretaria') {
     // ✅ SI TIENE PERMISO, PROCEDEMOS
     const data = localStorage.getItem('usuarios')
     if (data) {

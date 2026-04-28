@@ -25,12 +25,12 @@ const guardarNuevo = () => {
   // 1. Limpiamos el rol para comparar sin errores
   const miRol = String(rolActual.value || '').toLowerCase().trim();
 
-  // 2. 🛡️ FILTRO DE SEGURIDAD: Solo Jefe o Gerente pueden crear usuarios
-  if (miRol !== 'gerente' && miRol !== 'jefe') {
+  // 2. 🛡️ FILTRO DE SEGURIDAD: Solo Jefe o admin pueden crear usuarios
+  if (miRol !== 'admin' && miRol !== 'jefe') {
    return navigateTo('/denegado?rol=jefe') // <--- EL REDIRECCIONAMIENTO
   }
 
-  // 3. Si pasó el filtro (es jefe o gerente), procedemos:
+  // 3. Si pasó el filtro (es jefe o admin), procedemos:
   const datosExistentes = localStorage.getItem('usuarios')
   const lista = datosExistentes ? JSON.parse(datosExistentes) : []
 

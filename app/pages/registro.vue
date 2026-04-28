@@ -58,8 +58,6 @@ const guardar = () => {
   // 1. Convertimos lo que sea que venga en la cookie a minúsculas
   const miRol = String(rolActual.value || '').toLowerCase().trim();
 
-
-
   // 3. Si pasó el filtro, guardamos...
   if (editando.value) {
     lista.value[indexEditar.value] = { ...formulario.value };

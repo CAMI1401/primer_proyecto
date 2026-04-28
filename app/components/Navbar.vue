@@ -33,7 +33,7 @@ const cerrarSesion = () => {
       <NuxtLink to="/registro">Registro</NuxtLink>
       <NuxtLink to="/contacto">Contacto</NuxtLink>
 <NuxtLink 
-        v-if="rolActual === 'gerente'" 
+        v-if="rolActual === 'admin'" 
         to="/admin/permisos" 
         class="link-admin"
       >
