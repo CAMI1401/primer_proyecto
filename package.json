@@ -12,6 +12,7 @@
   "dependencies": {
     "@vueuse/motion": "^3.0.3",
     "aos": "^2.3.4",
+    "nodemailer": "^8.0.7",
     "nuxt": "^4.4.2",
     "nuxt-svgo": "^4.2.6",
     "sweetalert2": "^11.26.24",

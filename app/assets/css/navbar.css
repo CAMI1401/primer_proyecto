@@ -1,0 +1,96 @@
+/* 1. ESTILOS BASE: Se aplican a TODO (PC y Móvil) */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #3B82F6;
+  padding: 15px 30px;
+  color: white;
+  position: relative; /* Para que el menú móvil se pegue aquí */
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 40px;
+}
+
+/* El botón de hamburguesa SIEMPRE existe, pero lo ocultamos en PC */
+.menu-toggle {
+  display: none; 
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Navegación para Computadora */
+nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-left: 1px solid rgba(255,255,255,0.3);
+  padding-left: 20px;
+}
+
+/* 2. DISEÑO RESPONSIVO: Solo cuando la pantalla es menor a 768px */
+@media screen and (max-width: 768px) {
+  
+  /* ¡AQUÍ APARECE LA MAGIA! Mostramos la hamburguesa */
+  .menu-toggle {
+    display: block !important; 
+  }
+
+  /* El menú se vuelve una lista vertical que "flota" */
+  nav {
+    display: none; /* Por defecto escondido */
+    flex-direction: column;
+    position: absolute;
+    top: 100%; /* Justo debajo de la barra */
+    left: 0;
+    width: 100%;
+    background: #3B82F6;
+    padding: 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  }
+
+  /* Cuando haces clic y Vue pone esta clase, el menú se muestra */
+  nav.nav-open {
+    display: flex !important;
+  }
+
+  /* Ajustes visuales para que los links ocupen todo el ancho */
+  nav a {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .user-section {
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    width: 100%;
+    justify-content: center;
+    padding: 15px 0;
+  }
+}

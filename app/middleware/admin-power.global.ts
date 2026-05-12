@@ -1,20 +1,25 @@
 export default defineNuxtRouteMiddleware((to) => {
   const rol = useCookie('rol').value
-  // Limpiamos la ruta para evitar errores por una "/" al final
   const path = to.path.replace(/\/$/, '') || '/'
-  const publicRoutes = ['/']
+  
+  // 1. 🔓 ACTUALIZAMOS LAS RUTAS PÚBLICAS
+  // Añadimos '/recuperar' para que el guardia deje pasar a cualquiera
+  const publicRoutes = ['/', '/login', '/recuperar']
 
-  // 1. 🛡️ BARRERA DE SEGURIDAD PARA DESCONOCIDOS
-  // Si no tiene rol y la página no es pública (el login), lo mandamos al inicio
+  // 2. 🛡️ BARRERA PARA DESCONOCIDOS
   if (!rol && !publicRoutes.includes(path)) {
+    // Si no tiene rol y no es una ruta pública, lo mandamos al inicio
     return navigateTo('/')
   }
 
-  // 2. 👑 SUPERPODER DEL ADMIN
-  // Si es admin, "limpiamos" el camino. Al hacer 'return', Nuxt ignora 
-  // los middlewares específicos (solojefe, etc.) de las páginas.
+  // 3. 👑 SUPERPODER DEL ADMIN (Y OTROS ROLES)
   if (rol === 'admin') {
-    if (path === '/denegado') return 
+    if (path === '/login' || path === '/recuperar') {
+      return navigateTo('/registro')
+    }
     return 
   }
+  
+  // Nota: Si tienes otros roles como 'secretaria' o 'encargado', 
+  // también deberías evitar que entren a /recuperar si ya están logueados.
 })
